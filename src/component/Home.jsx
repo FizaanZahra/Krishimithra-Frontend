@@ -11,7 +11,7 @@ const Home = () => {
       }}
     >
       <Typography variant="h2" >
-        Welcome to Krishimithra!!
+        Welcome to Krishimithra.
       </Typography><br />
       <Typography variant="h4" >
         Empowering agriculture through digital solutions.
