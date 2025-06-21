@@ -31,6 +31,11 @@ const Navbar = () => {
               <Link to={"/a"} style={{color:"white"}}>
               Add products
               </Link>
+            </Button>&nbsp;&nbsp;
+          <Button color="error" variant='contained'>
+              <Link to={"/l"} style={{color:"white"}}>
+              Login
+              </Link>
             </Button>
         </Toolbar>
       </AppBar>
