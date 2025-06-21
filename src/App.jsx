@@ -9,6 +9,7 @@ import Viewprod from './component/Viewprod'
 import { Box} from '@mui/material'
 import backgroundImage from './assets/agri.png';
 import Home from './component/Home'
+import Login from './component/Login'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,6 +30,7 @@ function App() {
           <Route path="/a" element={<Addprod/>}/>
           <Route path="/v" element={<Viewprod/>}/>
           <Route path='/' element={<Home/>}/>
+           <Route path='/l' element={<Login/>}/>
         </Routes>
      </Box> 
     </>
