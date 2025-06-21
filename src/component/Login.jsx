@@ -14,7 +14,7 @@ const First = () => {
        <Button variant="contained" color='success'>Login</Button>
        <br /><br />
        <Button variant="text">OR</Button><br /><br />
-       <Button variant="contained" color='Secondary'>Create an Account</Button>
+       <Button variant="contained" color='primary'>Create an Account</Button>
        <br /><br />
 
        </div>
