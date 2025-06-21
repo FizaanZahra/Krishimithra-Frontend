@@ -23,18 +23,18 @@ const Navbar = () => {
             Krishimithra
           </Typography>
           <Button color="error" variant='contained'>
-              <Link to={"/v"} style={{color:"white"}}>
-              VIEW products
+              <Link to={"/l"} style={{color:"white"}}>
+              Login
               </Link>
             </Button>&nbsp; &nbsp;
           <Button color="error" variant='contained'>
-              <Link to={"/a"} style={{color:"white"}}>
-              Add products
+              <Link to={"/v"} style={{color:"white"}}>
+              VIEW products
               </Link>
             </Button>&nbsp;&nbsp;
           <Button color="error" variant='contained'>
-              <Link to={"/l"} style={{color:"white"}}>
-              Login
+              <Link to={"/a"} style={{color:"white"}}>
+              ADD products
               </Link>
             </Button>
         </Toolbar>
