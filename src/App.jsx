@@ -12,6 +12,7 @@ import Home from './component/Home'
 import Login from './component/Login'
 import UploadImage from './component/Uploadimage' // ✅ New import
 import Viewimages from './component/Viewimages';
+import Register from './component/Register';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/a" element={<Addprod />} />
           <Route path="/v" element={<Viewprod />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/l" element={<Login />} />
           <Route path="/upload" element={<UploadImage />} /> {/* ✅ New route */}
           <Route path="/viewimages" element={<Viewimages />} />

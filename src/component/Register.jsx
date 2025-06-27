@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography } from '@mui/material';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const First = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     if (!username || !password) {
       setError('Both fields are required');
       return;
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/login', {
+      const res = await axios.post('http://localhost:5000/api/register', {
         username,
         password
       });
-      alert(res.data.message); // or redirect to home/dashboard
+      alert(res.data.message);
       setError('');
+      navigate('/l'); // Go to login page after success
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError(err.response?.data?.error || 'Registration failed');
     }
   };
 
   return (
     <div>
-      <h1>Welcome to KrishiMitra</h1>
+      <h1>Create an Account</h1>
       <br />
       <TextField
         label="Username"
@@ -51,18 +53,11 @@ const First = () => {
         </Typography>
       )}
       <br />
-      <Button variant="contained" color="success" onClick={handleLogin}>
-        Login
+      <Button variant="contained" color="primary" onClick={handleRegister}>
+        Register
       </Button>
-      <br /><br />
-      <Typography>OR</Typography>
-      <br />
-<Link to="/register" style={{ textDecoration: 'none' }}>
-  <Button variant="contained" color="primary">Create an Account</Button>
-</Link>
-
     </div>
   );
 };
 
-export default First;
+export default Register;
