@@ -45,7 +45,7 @@ const Addprod = () => {
   return (
     <div>
       <br />
-      <Typography variant='h3' color='black'>Details</Typography>
+      <Typography variant='h3' color='black'>Add Products</Typography>
       <br />
 
       <TextField
