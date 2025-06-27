@@ -1,10 +1,10 @@
-import { Button, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'; // ✅ Already correct
+import { Button, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Addprod = () => {
-  const navigate = useNavigate(); // ✅ Place this inside the component
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -12,6 +12,8 @@ const Addprod = () => {
     tools: '',
     place: ''
   });
+
+  const [submitted, setSubmitted] = useState(false); // Track if user clicked Submit
 
   const handleChange = (e) => {
     setFormData({
@@ -21,12 +23,19 @@ const Addprod = () => {
   };
 
   const handleSubmit = async () => {
- 
+    setSubmitted(true); // Trigger validation display
+
+    // Check if any field is empty
+    if (!formData.name || !formData.contact || !formData.tools || !formData.place) {
+      return; // Stop submission
+    }
+
     try {
       await axios.post('http://localhost:5000/api/add', formData);
       alert('Details submitted successfully!');
-      setFormData({ name: '', contact: '', tools: '', place: '' }); // Clear form
-      navigate('/view'); // ✅ Redirect after successful submit
+      setFormData({ name: '', contact: '', tools: '', place: '' });
+      setSubmitted(false);
+      navigate('/view');
     } catch (error) {
       console.error(error);
       alert('Error submitting data');
@@ -38,17 +47,54 @@ const Addprod = () => {
       <br />
       <Typography variant='h3' color='black'>Details</Typography>
       <br />
-      
-      <TextField name="name" label="Name of holder" variant="outlined" value={formData.name} onChange={handleChange} />
+
+      <TextField
+        name="name"
+        label="Name of holder"
+        variant="outlined"
+        value={formData.name}
+        onChange={handleChange}
+        error={submitted && !formData.name}
+        helperText={submitted && !formData.name ? "Name is required" : ""}
+      />
       <br /><br />
-      <TextField name="contact" label="Contact Number" variant="outlined" value={formData.contact} onChange={handleChange} />
+
+      <TextField
+        name="contact"
+        label="Contact Number"
+        variant="outlined"
+        value={formData.contact}
+        onChange={handleChange}
+        error={submitted && !formData.contact}
+        helperText={submitted && !formData.contact ? "Contact is required" : ""}
+      />
       <br /><br />
-      <TextField name="tools" label="Tools Available" variant="outlined" value={formData.tools} onChange={handleChange} />
+
+      <TextField
+        name="tools"
+        label="Tools Available"
+        variant="outlined"
+        value={formData.tools}
+        onChange={handleChange}
+        error={submitted && !formData.tools}
+        helperText={submitted && !formData.tools ? "Tools are required" : ""}
+      />
       <br /><br />
-      <TextField name="place" label="Place" variant="outlined" value={formData.place} onChange={handleChange} />
+
+      <TextField
+        name="place"
+        label="Place"
+        variant="outlined"
+        value={formData.place}
+        onChange={handleChange}
+        error={submitted && !formData.place}
+        helperText={submitted && !formData.place ? "Place is required" : ""}
+      />
       <br /><br />
-      <Button variant='contained' color='success' onClick={handleSubmit}>Submit</Button>
-   
+
+      <Button variant='contained' color='success' onClick={handleSubmit}>
+        Submit
+      </Button>
     </div>
   );
 };
