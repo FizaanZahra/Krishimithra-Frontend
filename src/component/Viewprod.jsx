@@ -34,33 +34,33 @@ const Viewprod = () => {
   return (
     <Box sx={{ padding: 4 }}>
       <Typography variant="h4" gutterBottom>All Uploaded Products</Typography>
-
-      <Table>
-        <TableHead>
+    <Box sx={{ overflowX: 'auto', borderRadius: '8px', boxShadow: 2 }}>
+      <Table sx={{ minWidth: 650, border: '1px solid #ccc' }}>
+        <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
           <TableRow>
-            <TableCell><strong>Name</strong></TableCell>
-            <TableCell><strong>Contact</strong></TableCell>
-            <TableCell><strong>Tools</strong></TableCell>
-            <TableCell><strong>Place</strong></TableCell>
-            <TableCell><strong>Actions</strong></TableCell>
+            <TableCell align="center"><strong>Name</strong></TableCell>
+            <TableCell align="center"><strong>Contact</strong></TableCell>
+            <TableCell align="center"><strong>Tools</strong></TableCell>
+            <TableCell align="center"><strong>Place</strong></TableCell>
+            <TableCell align="center"><strong>Actions</strong></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((item) => (
             <TableRow key={item._id}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.contact}</TableCell>
-              <TableCell>{item.tools}</TableCell>
-              <TableCell>{item.place}</TableCell>
-              <TableCell>
+              <TableCell align="center">{item.name}</TableCell>
+              <TableCell align="center">{item.contact}</TableCell>
+              <TableCell align="center">{item.tools}</TableCell>
+              <TableCell align="center">{item.place}</TableCell>
+              <TableCell align="center">
                 <Button
                   variant="contained"
                   color="error"
                   onClick={() => handleDelete(item._id)}
-                  style={{ marginRight: '10px' }}
+                  style={{ marginRight: 1 }}
                 >
                   DELETE
-                </Button>
+                </Button>&nbsp;
                 <Button
                   variant="contained"
                   color="success"
@@ -73,6 +73,7 @@ const Viewprod = () => {
           ))}
         </TableBody>
       </Table>
+    </Box>
     </Box>
   );
 };
