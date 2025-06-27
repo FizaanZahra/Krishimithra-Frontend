@@ -35,7 +35,7 @@ const Addprod = () => {
       alert('Details submitted successfully!');
       setFormData({ name: '', contact: '', tools: '', place: '' });
       setSubmitted(false);
-      navigate('/view');
+      navigate('/v');
     } catch (error) {
       console.error(error);
       alert('Error submitting data');
@@ -45,7 +45,7 @@ const Addprod = () => {
   return (
     <div>
       <br />
-      <Typography variant='h3' color='black'>Add Products</Typography>
+      <Typography variant='h3' color='black'>Add products</Typography>
       <br />
 
       <TextField
