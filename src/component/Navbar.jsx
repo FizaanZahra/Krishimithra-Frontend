@@ -31,11 +31,6 @@ const Navbar = () => {
                 VIEW products
               </Link>
             </Button>&nbsp;&nbsp;
-            <Button color="error" variant='contained'>
-              <Link to={"/a"} style={{ color: "white" }}>
-                ADD products
-              </Link>
-            </Button>&nbsp;&nbsp;
             {/* ✅ Upload Image Button */}
             <Button color="error" variant='contained'>
   <Link to={"/upload"} style={{ color: "white" }}>
