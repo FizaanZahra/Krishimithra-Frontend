@@ -5,8 +5,8 @@ const Home = () => {
   return (
     <Box
       sx={{
-        paddingTop: '64px', 
-    paddingX: '20px',
+        paddingTop: '100px', 
+    paddingX: '100px',
     paddingBottom: '60px',
     textAlign: 'center',
     color: 'whitesmoke',
