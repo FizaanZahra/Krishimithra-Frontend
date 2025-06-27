@@ -5,9 +5,13 @@ const Home = () => {
   return (
     <Box
       sx={{
-        textAlign: 'center',
-        color:"whitesmoke",
-        padding:"20vh"
+        paddingTop: '64px', 
+    paddingX: '20px',
+    paddingBottom: '60px',
+    textAlign: 'center',
+    color: 'whitesmoke',
+    minHeight: '100vh',
+   
       }}
     >
       <Typography variant="h2" >

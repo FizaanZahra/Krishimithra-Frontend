@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} >
         <AppBar position="static" style={{ textAlign: "left", backgroundColor: "#A52A2A" }} >
           <Toolbar>
             <IconButton
