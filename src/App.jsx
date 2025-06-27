@@ -13,6 +13,7 @@ import Login from './component/Login'
 import UploadImage from './component/Uploadimage' // ✅ New import
 import Viewimages from './component/Viewimages';
 import Register from './component/Register';
+import Footer from './component/Footer';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -40,6 +41,7 @@ function App() {
           <Route path="/viewimages" element={<Viewimages />} />
         </Routes>
       </Box>
+      <Footer />
     </>
   )
 }

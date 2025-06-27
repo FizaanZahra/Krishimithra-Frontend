@@ -17,6 +17,7 @@ const Home = () => {
         Empowering agriculture through digital solutions.
       </Typography>
     </Box>
+    
   );
 };
 
