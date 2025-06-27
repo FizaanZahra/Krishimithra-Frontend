@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Typography, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const UploadImage = () => {
   const [file, setFile] = useState(null);
@@ -8,7 +11,7 @@ const UploadImage = () => {
   const handleChange = (e) => {
     setFile(e.target.files[0]);
   };
-
+  const navigate = useNavigate();  
   const handleUpload = async () => {
     if (!file) return alert("Please select an image");
 
@@ -19,6 +22,7 @@ const UploadImage = () => {
       await axios.post('http://localhost:5000/api/upload', formData);
       alert('Image uploaded successfully!');
       setFile(null);
+      navigate('/viewimages');
     } catch (err) {
       console.error(err);
       alert('Upload failed');
