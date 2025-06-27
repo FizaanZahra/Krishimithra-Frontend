@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const First = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -21,6 +23,7 @@ const First = () => {
       });
       alert(res.data.message); // or redirect to home/dashboard
       setError('');
+      navigate('/a'); 
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
