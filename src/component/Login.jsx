@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Button, Typography, Box } from '@mui/material';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import LoginIcon from '@mui/icons-material/Login';
+import Field from '../assets/Field.png';
 
 const First = () => {
   const [username, setUsername] = useState('');
@@ -30,8 +32,19 @@ const First = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to KrishiMitra</h1>
+    <Box
+      sx={{
+        background: 'rgba(255,255,255,0.85)',
+        borderRadius: 2,
+        boxShadow: 3,
+        maxWidth: 400,
+        margin: 'auto',
+        mt: 8,
+        p: 4,
+        textAlign: 'center',
+      }}
+    >
+      <h1>Welcome to Krishimithra</h1>
       <br />
       <TextField
         label="Username"
@@ -54,17 +67,16 @@ const First = () => {
         </Typography>
       )}
       <br />
-      <Button variant="contained" color="success" onClick={handleLogin}>
+      <Button variant="contained" color="primary" onClick={handleLogin} startIcon={<LoginIcon />}>
         Login
       </Button>
       <br /><br />
       <Typography>OR</Typography>
       <br />
-<Link to="/register" style={{ textDecoration: 'none' }}>
-  <Button variant="contained" color="primary">Create an Account</Button>
-</Link>
-
-    </div>
+      <Link to="/register" style={{ textDecoration: 'none' }}>
+        <Button variant="contained" color="primary">Create an Account</Button>
+      </Link>
+    </Box>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography } from '@mui/material';
+import { TextField, Button, Typography, Box } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +22,7 @@ const Register = () => {
       });
       alert(res.data.message);
       setError('');
+      localStorage.setItem('user', 'true');
       navigate('/l'); // Go to login page after success
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');
@@ -29,7 +30,18 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        background: 'rgba(255,255,255,0.85)',
+        borderRadius: 2,
+        boxShadow: 3,
+        maxWidth: 400,
+        margin: 'auto',
+        mt: 8,
+        p: 4,
+        textAlign: 'center',
+      }}
+    >
       <h1>Create an Account</h1>
       <br />
       <TextField
@@ -56,7 +68,7 @@ const Register = () => {
       <Button variant="contained" color="primary" onClick={handleRegister}>
         Register
       </Button>
-    </div>
+    </Box>
   );
 };
 

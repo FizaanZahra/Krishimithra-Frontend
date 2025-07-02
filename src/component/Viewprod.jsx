@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Table, TableHead, TableRow, TableCell, TableBody, Typography, Box } from '@mui/material';
+import { Button, Typography, Box, Card, CardContent, CardMedia, Grid } from '@mui/material';
 
 const Viewprod = () => {
   const [data, setData] = useState([]);
@@ -32,48 +32,53 @@ const Viewprod = () => {
   };
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ padding: 4, background: 'rgba(255,255,255,0.85)', borderRadius: 2, boxShadow: 3, maxWidth: '95vw', margin: 'auto', mt: 6 }}>
       <Typography variant="h4" gutterBottom>All Uploaded Products</Typography>
-    <Box sx={{ overflowX: 'auto', borderRadius: '8px', boxShadow: 2 }}>
-      <Table sx={{ minWidth: 650, border: '1px solid #ccc' }}>
-        <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
-          <TableRow>
-            <TableCell align="center"><strong>Name</strong></TableCell>
-            <TableCell align="center"><strong>Contact</strong></TableCell>
-            <TableCell align="center"><strong>Tools</strong></TableCell>
-            <TableCell align="center"><strong>Place</strong></TableCell>
-            <TableCell align="center"><strong>Actions</strong></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((item) => (
-            <TableRow key={item._id}>
-              <TableCell align="center">{item.name}</TableCell>
-              <TableCell align="center">{item.contact}</TableCell>
-              <TableCell align="center">{item.tools}</TableCell>
-              <TableCell align="center">{item.place}</TableCell>
-              <TableCell align="center">
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleDelete(item._id)}
-                  style={{ marginRight: 1 }}
-                >
-                  DELETE
-                </Button>&nbsp;
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={() => handleEdit(item)}
-                >
-                  EDIT
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Box>
+      <Grid container spacing={3}>
+        {data.map((item) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
+            <Card sx={{ maxWidth: 345, margin: 'auto', boxShadow: 3 }}>
+              {item.image && (
+                <CardMedia
+                  component="img"
+                  height="180"
+                  image={`http://localhost:5000/uploads/${item.image}`}
+                  alt={item.name}
+                />
+              )}
+              <Typography variant="h6" sx={{ color: '#1976d2', fontWeight: 'bold', mb: 1, mt: 1, textAlign: 'center' }}>
+                {item.tools}
+              </Typography>
+              <CardContent>
+                <Typography gutterBottom variant="subtitle2" component="div" sx={{ fontWeight: 'bold', color: '#333', textAlign: 'center' }}>
+                  Name of holder: {item.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <b>Contact:</b> {item.contact}<br />
+                  <b>Place:</b> {item.place}
+                </Typography>
+                <Box sx={{ mt: 2 }}>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleDelete(item._id)}
+                    style={{ marginRight: 8 }}
+                  >
+                    DELETE
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => handleEdit(item)}
+                  >
+                    EDIT
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

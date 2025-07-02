@@ -1,4 +1,3 @@
-// src/component/Viewimages.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Typography, Button } from '@mui/material';

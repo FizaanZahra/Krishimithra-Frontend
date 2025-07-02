@@ -5,13 +5,12 @@ const Home = () => {
   return (
     <Box
       sx={{
-        paddingTop: '100px', 
-    paddingX: '100px',
-    paddingBottom: '60px',
-    textAlign: 'center',
-    color: 'whitesmoke',
-    minHeight: '100vh',
-   
+        paddingTop: '100px',
+        paddingX: '100px',
+        paddingBottom: '60px',
+        textAlign: 'center',
+        color: 'whitesmoke',
+        minHeight: '100vh',
       }}
     >
       <Typography variant="h2" >
