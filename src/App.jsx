@@ -16,6 +16,7 @@ import Viewimages from './component/Viewimages';
 import Register from './component/Register';
 import Footer from './component/Footer';
 import About from './component/About';
+import Logout from './component/Logout';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -43,6 +44,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/l" element={<Login />} />
           <Route path="/about" element={<About />} />
+          <Route path="/lo" element={<Logout />} />
         </Routes>
       </Box>
       <Footer />
