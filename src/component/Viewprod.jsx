@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Typography, Box, Card, CardContent, CardMedia, Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+} from '@mui/material';
 
 const Viewprod = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDetails();
@@ -28,11 +38,25 @@ const Viewprod = () => {
   };
 
   const handleEdit = (item) => {
-    alert(`Edit clicked for: ${item.name}`); // Add real navigation or modal later
+    alert(`Edit clicked for: ${item.name}`);
+  };
+
+  const handleLoginToBuy = () => {
+    navigate('/l', { state: { from: '/v' } }); // Send back path
   };
 
   return (
-    <Box sx={{ padding: 4, background: 'rgba(255,255,255,0.85)', borderRadius: 2, boxShadow: 3, maxWidth: '95vw', margin: 'auto', mt: 6 }}>
+    <Box
+      sx={{
+        padding: 4,
+        background: 'rgba(255,255,255,0.85)',
+        borderRadius: 2,
+        boxShadow: 3,
+        maxWidth: '95vw',
+        margin: 'auto',
+        mt: 6,
+      }}
+    >
       <Typography variant="h4" gutterBottom>All Uploaded Products</Typography>
       <Grid container spacing={3}>
         {data.map((item) => (
@@ -46,17 +70,42 @@ const Viewprod = () => {
                   alt={item.name}
                 />
               )}
-              <Typography variant="h6" sx={{ color: '#1976d2', fontWeight: 'bold', mb: 1, mt: 1, textAlign: 'center' }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: '#1976d2',
+                  fontWeight: 'bold',
+                  mb: 1,
+                  mt: 1,
+                  textAlign: 'center',
+                }}
+              >
                 {item.tools}
               </Typography>
               <CardContent>
-                <Typography gutterBottom variant="subtitle2" component="div" sx={{ fontWeight: 'bold', color: '#333', textAlign: 'center' }}>
+                <Typography
+                  gutterBottom
+                  variant="subtitle2"
+                  component="div"
+                  sx={{ fontWeight: 'bold', color: '#333', textAlign: 'center' }}
+                >
                   Name of holder: {item.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   <b>Contact:</b> {item.contact}<br />
                   <b>Place:</b> {item.place}
                 </Typography>
+
+                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleLoginToBuy}
+                  >
+                    LOGIN TO BUY
+                  </Button>
+                </Box>
+
                 <Box sx={{ mt: 2 }}>
                   <Button
                     variant="contained"
