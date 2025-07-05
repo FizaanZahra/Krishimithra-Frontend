@@ -3,6 +3,7 @@ import { AppBar, Box, IconButton, Toolbar, Typography, Menu, MenuItem, Button } 
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom';
 import Field from '../assets/Field.png';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -49,7 +50,12 @@ const Navbar = () => {
           &nbsp;&nbsp;
           <Button color="error" variant='contained' onClick={() => navigate('/')}>
             <span style={{ color: "black", textShadow: "1px 1px 4px rgba(0,0,0,0.3)" }}>Go to Homepage</span>
-          </Button>
+          </Button>&nbsp;&nbsp;
+          <Button color="error" variant='contained'>
+            <Link to={"/lo"} style={{ color: "black", textShadow: "1px 1px 4px rgba(0,0,0,0.3)" }}>
+              Logout
+            </Link>
+          </Button>&nbsp;&nbsp;
         </Toolbar>
       </AppBar>
     </Box>
