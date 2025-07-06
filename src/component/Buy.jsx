@@ -82,8 +82,8 @@ const Buy = () => {
           />
           <CardContent>
             <Typography variant="h6">{product.tools}</Typography>
-            <Typography variant="subtitle1" color="green">
-              ₹{product.price}
+            <Typography variant="subtitle1" color="green" fontWeight="bold">
+              ₹{product.price ? Number(product.price).toLocaleString('en-IN') : 'N/A'}
             </Typography>
             <Typography variant="body2">Seller: {product.name}</Typography>
             <Typography variant="body2">📞 {product.contact}</Typography>
@@ -132,10 +132,10 @@ const Buy = () => {
         {/* Billing Section */}
         <Box>
           <Typography variant="h6">Billing Summary</Typography>
-          <Typography>Price per Unit: ₹{product.price}</Typography>
+          <Typography>Price per Unit: ₹{product.price ? Number(product.price).toLocaleString('en-IN') : 'N/A'}</Typography>
           <Typography>Quantity: {quantity}</Typography>
           <Typography fontWeight="bold" mt={1}>
-            Total: ₹{totalAmount}
+            Total: ₹{totalAmount ? Number(totalAmount).toLocaleString('en-IN') : 'N/A'}
           </Typography>
         </Box>
 

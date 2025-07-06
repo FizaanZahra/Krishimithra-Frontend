@@ -1,4 +1,4 @@
-import { Button, TextField, Typography, Box } from '@mui/material';
+import { Button, TextField, Typography, Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,9 @@ const Addprod = () => {
     name: '',
     contact: '',
     tools: '',
-    place: ''
+    place: '',
+    price: '',
+    condition: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -30,27 +32,37 @@ const Addprod = () => {
   const handleSubmit = async () => {
     setSubmitted(true);
 
-    const isFormValid = (
-      formData.name &&
-      formData.contact.length === 10 &&
-      formData.tools &&
-      formData.place &&
-      image
-    );
+    const { name, contact, tools, place, price, condition } = formData;
 
-    if (!isFormValid) return;
+    // Validation checks
+    if (!name || !contact || !tools || !place || !price || !condition || !image) {
+      return;
+    }
+
+    if (contact.length !== 10) {
+      return;
+    }
+
+    // Price validation
+    if (isNaN(price) || Number(price) <= 0) {
+      alert('Please enter a valid positive price');
+      return;
+    }
 
     try {
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => data.append(key, value));
       data.append('toolImage', image);
 
-      await axios.post('http://localhost:5000/api/add', data);
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      await axios.post('http://localhost:5000/api/add', data, { headers });
 
       alert('✅ Product added successfully!\nYou will now be redirected to the Home page.');
 
       // Reset form
-      setFormData({ name: '', contact: '', tools: '', place: '' });
+      setFormData({ name: '', contact: '', tools: '', place: '', price: '', condition: '' });
       setImage(null);
       setSubmitted(false);
 
@@ -134,6 +146,46 @@ const Addprod = () => {
         helperText={submitted && !formData.place && 'Location is required'}
       />
 
+      <TextField
+        name="price"
+        label="Price (₹)"
+        type="number"
+        fullWidth
+        margin="normal"
+        variant="outlined"
+        value={formData.price}
+        onChange={handleChange}
+        error={submitted && !formData.price}
+        helperText={submitted && !formData.price && 'Price is required'}
+        InputProps={{
+          startAdornment: <span style={{ marginRight: '8px' }}>₹</span>,
+        }}
+      />
+
+      <FormControl fullWidth margin="normal" error={submitted && !formData.condition}>
+        <InputLabel>Condition</InputLabel>
+        <Select
+          name="condition"
+          value={formData.condition}
+          onChange={handleChange}
+          label="Condition"
+        >
+          <MenuItem value="">Select Condition</MenuItem>
+          <MenuItem value="New">New</MenuItem>
+          <MenuItem value="Like New">Like New</MenuItem>
+          <MenuItem value="Good">Good</MenuItem>
+          <MenuItem value="Fair">Fair</MenuItem>
+          <MenuItem value="Used">Used</MenuItem>
+        </Select>
+        {submitted && !formData.condition && (
+          <Typography color="error" variant="caption" sx={{ mt: 0.5, ml: 1.5 }}>
+            Condition is required
+          </Typography>
+        )}
+      </FormControl>
+
+
+
       <Box mt={2} mb={2}>
         <input type="file" accept="image/*" onChange={handleImageChange} />
         {submitted && !image && (
@@ -153,7 +205,7 @@ const Addprod = () => {
         Submit Product
       </Button>
 
-      {submitted && (!formData.name || !formData.contact || formData.contact.length !== 10 || !formData.tools || !formData.place || !image) && (
+      {submitted && (!formData.name || !formData.contact || formData.contact.length !== 10 || !formData.tools || !formData.place || !formData.price || !formData.condition || !image) && (
         <Typography color="error" sx={{ mt: 2 }}>
           ⚠ Please fill all fields correctly before submitting.
         </Typography>

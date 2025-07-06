@@ -104,8 +104,8 @@ const Home = () => {
                   <Typography variant="h6" fontWeight="bold" gutterBottom>
                     {product.tools || 'Agricultural Tool'}
                   </Typography>
-                  <Typography variant="subtitle1" color="green">
-                    ₹{product.price || 'N/A'}
+                  <Typography variant="subtitle1" color="green" fontWeight="bold">
+                    ₹{product.price ? Number(product.price).toLocaleString('en-IN') : 'N/A'}
                   </Typography>
                   <Typography variant="body2" mb={1}>
                     Condition: <strong>{product.condition || 'N/A'}</strong>

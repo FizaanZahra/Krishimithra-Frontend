@@ -164,6 +164,7 @@ const Navbar = () => {
                   <MenuItem onClick={() => { handleProfileClose(); navigate('/profile'); }}>
                     View / Edit Profile
                   </MenuItem>
+
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </>

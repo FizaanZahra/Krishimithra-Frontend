@@ -93,8 +93,8 @@ const Viewprod = () => {
                   <Typography variant="body2" color="text.secondary">
                     <b>Contact:</b> {item.contact}<br />
                     <b>Place:</b> {item.place}<br />
-                    <b>Price:</b> ₹{item.price}<br />
-                    <b>Condition:</b> {item.condition}
+                    <b>Price:</b> ₹{item.price ? Number(item.price).toLocaleString('en-IN') : 'Not specified'}<br />
+                    <b>Condition:</b> {item.condition || 'Not specified'}
                   </Typography>
 
                   <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
