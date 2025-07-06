@@ -18,6 +18,8 @@ const First = () => {
     }
 
     try {
+      setError(''); // Clear any previous errors
+      
       // 🔐 Login request
       const res = await axios.post('http://localhost:5000/api/login', {
         username,
@@ -34,8 +36,7 @@ const First = () => {
 
       localStorage.setItem('user', JSON.stringify(profileRes.data));
 
-      alert('✅ Login successful');
-      setError('');
+      alert(`✅ Welcome back, ${profileRes.data.name || username}!`);
       navigate('/choose'); // Redirect to choose page
     } catch (err) {
       setError(err.response?.data?.error || '❌ Invalid credentials');
@@ -96,7 +97,7 @@ const First = () => {
       </Button>
 
       <Typography variant="body2" sx={{ mt: 3 }}>
-        OR
+        Don't have an account?
       </Typography>
 
       <Link to="/register" style={{ textDecoration: 'none' }}>
