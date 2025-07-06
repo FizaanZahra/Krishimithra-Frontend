@@ -2,7 +2,6 @@ import { Button, TextField, Typography, Box } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Field from '../assets/Field.png';
 
 const Addprod = () => {
   const navigate = useNavigate();
@@ -14,7 +13,7 @@ const Addprod = () => {
     place: ''
   });
 
-  const [submitted, setSubmitted] = useState(false); // Track if user clicked Submit
+  const [submitted, setSubmitted] = useState(false);
   const [image, setImage] = useState(null);
 
   const handleChange = (e) => {
@@ -29,121 +28,134 @@ const Addprod = () => {
   };
 
   const handleSubmit = async () => {
-    setSubmitted(true); // Trigger validation display
+    setSubmitted(true);
 
-    // Check if any field is empty
-    if (!formData.name || !formData.contact || !formData.tools || !formData.place || !image) {
-      return; // Stop submission
-    }
+    const isFormValid = (
+      formData.name &&
+      formData.contact.length === 10 &&
+      formData.tools &&
+      formData.place &&
+      image
+    );
+
+    if (!isFormValid) return;
 
     try {
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => data.append(key, value));
       data.append('toolImage', image);
+
       await axios.post('http://localhost:5000/api/add', data);
-      alert('Details submitted successfully!');
+
+      alert('✅ Product added successfully!\nYou will now be redirected to the Home page.');
+
+      // Reset form
       setFormData({ name: '', contact: '', tools: '', place: '' });
       setImage(null);
       setSubmitted(false);
-      navigate('/v');
+
+      // Redirect to Home to see the new product
+      navigate('/home');
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error(error);
-      alert('Error submitting data');
+      alert('❌ Error submitting data');
     }
   };
 
   return (
     <Box
       sx={{
-        background: 'rgba(255,255,255,0.85)',
-        borderRadius: 2,
-        boxShadow: 3,
+        background: 'rgba(255,255,255,0.95)',
+        borderRadius: 3,
+        boxShadow: 4,
         maxWidth: 500,
         margin: 'auto',
         mt: 8,
         p: 4,
+        textAlign: 'center'
       }}
     >
-      <br />
-      <Typography variant='h3' color='black'>Add products</Typography>
-      <br />
+      <Typography variant="h4" color="primary" gutterBottom>
+        Sell a Product
+      </Typography>
 
       <TextField
         name="name"
-        label="Name of holder"
+        label="Name of Holder"
+        fullWidth
+        margin="normal"
         variant="outlined"
         value={formData.name}
         onChange={handleChange}
         error={submitted && !formData.name}
-        helperText={submitted && !formData.name ? "Name is required" : ""}
+        helperText={submitted && !formData.name && 'Name is required'}
       />
-      <br /><br />
 
       <TextField
         name="contact"
         label="Contact Number"
+        fullWidth
+        margin="normal"
         variant="outlined"
         value={formData.contact}
         onChange={handleChange}
         error={submitted && (!formData.contact || formData.contact.length !== 10)}
         helperText={
           submitted && !formData.contact
-            ? "Contact is required"
+            ? 'Contact is required'
             : submitted && formData.contact.length !== 10
-            ? "enter a 10 digit number"
-            : ""
+            ? 'Contact must be 10 digits'
+            : ''
         }
       />
-      <br /><br />
 
       <TextField
         name="tools"
-        label="Tools Available"
+        label="Tool Name"
+        fullWidth
+        margin="normal"
         variant="outlined"
         value={formData.tools}
         onChange={handleChange}
         error={submitted && !formData.tools}
-        helperText={submitted && !formData.tools ? "Tools are required" : ""}
+        helperText={submitted && !formData.tools && 'Tool name is required'}
       />
-      <br /><br />
 
       <TextField
         name="place"
-        label="Place"
+        label="Location"
+        fullWidth
+        margin="normal"
         variant="outlined"
         value={formData.place}
         onChange={handleChange}
         error={submitted && !formData.place}
-        helperText={submitted && !formData.place ? "Place is required" : ""}
+        helperText={submitted && !formData.place && 'Location is required'}
       />
-      <br /><br />
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-        required
-      />
-      <br /><br />
+      <Box mt={2} mb={2}>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        {submitted && !image && (
+          <Typography color="error" variant="body2">
+            Image is required
+          </Typography>
+        )}
+      </Box>
 
-      <Button 
-        variant='contained' 
-        color='success' 
+      <Button
+        variant="contained"
+        color="success"
         onClick={handleSubmit}
-        disabled={
-          !formData.name ||
-          !formData.contact ||
-          formData.contact.length !== 10 ||
-          !formData.tools ||
-          !formData.place ||
-          !image
-        }
+        fullWidth
+        sx={{ py: 1.5, fontWeight: 'bold' }}
       >
-        Submit
+        Submit Product
       </Button>
-      {(!formData.name || !formData.contact || formData.contact.length !== 10 || !formData.tools || !formData.place || !image) && (
-        <Typography color="error" sx={{ mt: 2, fontWeight: 'bold' }}>
-          Please fill all fields correctly. Contact number must be 10 digits.
+
+      {submitted && (!formData.name || !formData.contact || formData.contact.length !== 10 || !formData.tools || !formData.place || !image) && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          ⚠ Please fill all fields correctly before submitting.
         </Typography>
       )}
     </Box>

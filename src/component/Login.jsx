@@ -1,40 +1,51 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
-import Field from '../assets/Field.png';
 
 const First = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!username || !password) {
-      setError('Both fields are required');
+      setError('Both username and password are required.');
       return;
     }
 
     try {
+      // 🔐 Login request
       const res = await axios.post('http://localhost:5000/api/login', {
         username,
-        password
+        password,
       });
-      alert(res.data.message); // or redirect to home/dashboard
+
+      const token = res.data.token;
+      localStorage.setItem('token', token);
+
+      // 🔎 Fetch full user details
+      const profileRes = await axios.get('http://localhost:5000/api/profile', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      localStorage.setItem('user', JSON.stringify(profileRes.data));
+
+      alert('✅ Login successful');
       setError('');
-      navigate('/a'); 
+      navigate('/choose'); // Redirect to choose page
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError(err.response?.data?.error || '❌ Invalid credentials');
     }
   };
 
   return (
     <Box
       sx={{
-        background: 'rgba(255,255,255,0.85)',
+        background: 'rgba(255,255,255,0.95)',
         borderRadius: 2,
         boxShadow: 3,
         maxWidth: 400,
@@ -44,37 +55,54 @@ const First = () => {
         textAlign: 'center',
       }}
     >
-      <h1>Welcome to Krishimithra</h1>
-      <br />
+      <Typography variant="h4" gutterBottom fontWeight="bold">
+        Welcome to Krishimithra
+      </Typography>
+
       <TextField
         label="Username"
         variant="outlined"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        fullWidth
+        margin="normal"
       />
-      <br /><br />
+
       <TextField
         label="Password"
         type="password"
         variant="outlined"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        fullWidth
+        margin="normal"
       />
-      <br /><br />
+
       {error && (
-        <Typography color="error" variant="body1">
+        <Typography color="error" variant="body2" mt={1}>
           {error}
         </Typography>
       )}
-      <br />
-      <Button variant="contained" color="primary" onClick={handleLogin} startIcon={<LoginIcon />}>
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleLogin}
+        startIcon={<LoginIcon />}
+        fullWidth
+        sx={{ mt: 3 }}
+      >
         Login
       </Button>
-      <br /><br />
-      <Typography>OR</Typography>
-      <br />
+
+      <Typography variant="body2" sx={{ mt: 3 }}>
+        OR
+      </Typography>
+
       <Link to="/register" style={{ textDecoration: 'none' }}>
-        <Button variant="contained" color="primary">Create an Account</Button>
+        <Button variant="outlined" fullWidth sx={{ mt: 1 }}>
+          Create an Account
+        </Button>
       </Link>
     </Box>
   );

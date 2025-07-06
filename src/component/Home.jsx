@@ -9,27 +9,32 @@ import {
   CardContent,
   Button,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('token');
+  const location = useLocation();
 
   useEffect(() => {
+    // Fetch product list
     axios
       .get('http://localhost:5000/api/products')
-      .then((res) => {
-        console.log('Fetched products:', res.data);
-        setProducts(res.data);
-      })
+      .then((res) => setProducts(res.data))
       .catch((err) => console.error('Error fetching products:', err));
+
+    // Check token
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleBuy = (productId) => {
-    console.log('Buying product with ID:', productId);
-    // You can navigate to a detailed buy page later
-    alert("Purchase functionality coming soon!");
+    navigate(`/buy/${productId}`);
+  };
+
+  const handleLoginRedirect = () => {
+    navigate('/l', { state: { from: '/home' } }); // correct route to login
   };
 
   return (
@@ -54,7 +59,7 @@ const Home = () => {
         </Typography>
       </Box>
 
-      {/* Products */}
+      {/* Product Section */}
       <Typography variant="h4" mb={4} textAlign="center">
         Available Products
       </Typography>
@@ -91,8 +96,7 @@ const Home = () => {
                   alt={product.tools || product.name}
                   sx={{ objectFit: 'contain', backgroundColor: '#f5f5f5', p: 1 }}
                   onError={(e) => {
-                    e.target.src =
-                      'https://via.placeholder.com/300x200?text=No+Image';
+                    e.target.src = 'https://via.placeholder.com/300x200?text=No+Image';
                   }}
                 />
 
@@ -100,15 +104,12 @@ const Home = () => {
                   <Typography variant="h6" fontWeight="bold" gutterBottom>
                     {product.tools || 'Agricultural Tool'}
                   </Typography>
-
                   <Typography variant="subtitle1" color="green">
                     ₹{product.price || 'N/A'}
                   </Typography>
-
                   <Typography variant="body2" mb={1}>
                     Condition: <strong>{product.condition || 'N/A'}</strong>
                   </Typography>
-
                   <Typography variant="subtitle2" fontWeight="bold">
                     Holder: {product.name}
                   </Typography>
@@ -131,7 +132,7 @@ const Home = () => {
                       variant="outlined"
                       color="primary"
                       sx={{ borderRadius: '20px', px: 4 }}
-                      onClick={() => navigate('/l')} // ✅ Correct route to Login
+                      onClick={handleLoginRedirect}
                     >
                       Login to Buy
                     </Button>

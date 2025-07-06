@@ -9,11 +9,14 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  CircularProgress,
 } from '@mui/material';
 
 const Viewprod = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('token');
 
   useEffect(() => {
     fetchDetails();
@@ -21,28 +24,13 @@ const Viewprod = () => {
 
   const fetchDetails = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/view');
+      const res = await axios.get('http://localhost:5000/api/products');
       setData(res.data);
     } catch (err) {
       console.error("Fetch error:", err);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/delete/${id}`);
-      fetchDetails(); // Refresh data after delete
-    } catch (err) {
-      console.error("Delete error:", err);
-    }
-  };
-
-  const handleEdit = (item) => {
-    alert(`Edit clicked for: ${item.name}`);
-  };
-
-  const handleLoginToBuy = () => {
-    navigate('/l', { state: { from: '/v' } }); // Send back path
   };
 
   return (
@@ -57,79 +45,86 @@ const Viewprod = () => {
         mt: 6,
       }}
     >
-      <Typography variant="h4" gutterBottom>All Uploaded Products</Typography>
-      <Grid container spacing={3}>
-        {data.map((item) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
-            <Card sx={{ maxWidth: 345, margin: 'auto', boxShadow: 3 }}>
-              {item.image && (
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image={`http://localhost:5000/uploads/${item.image}`}
-                  alt={item.name}
-                />
-              )}
-              <Typography
-                variant="h6"
-                sx={{
-                  color: '#1976d2',
-                  fontWeight: 'bold',
-                  mb: 1,
-                  mt: 1,
-                  textAlign: 'center',
-                }}
-              >
-                {item.tools}
-              </Typography>
-              <CardContent>
+      <Typography variant="h4" gutterBottom textAlign="center">
+        All Uploaded Products
+      </Typography>
+
+      {loading ? (
+        <Box sx={{ textAlign: 'center', mt: 5 }}>
+          <CircularProgress />
+        </Box>
+      ) : data.length === 0 ? (
+        <Typography variant="h6" sx={{ textAlign: 'center', mt: 4 }}>
+          No products found.
+        </Typography>
+      ) : (
+        <Grid container spacing={3}>
+          {data.map((item) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
+              <Card sx={{ maxWidth: 345, margin: 'auto', boxShadow: 3 }}>
+                {item.image && (
+                  <CardMedia
+                    component="img"
+                    height="180"
+                    image={`http://localhost:5000/uploads/${item.image}`}
+                    alt={item.name}
+                  />
+                )}
                 <Typography
-                  gutterBottom
-                  variant="subtitle2"
-                  component="div"
-                  sx={{ fontWeight: 'bold', color: '#333', textAlign: 'center' }}
+                  variant="h6"
+                  sx={{
+                    color: '#1976d2',
+                    fontWeight: 'bold',
+                    mb: 1,
+                    mt: 1,
+                    textAlign: 'center',
+                  }}
                 >
-                  Name of holder: {item.name}
+                  {item.tools}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <b>Contact:</b> {item.contact}<br />
-                  <b>Place:</b> {item.place}
-                </Typography>
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="subtitle2"
+                    sx={{ fontWeight: 'bold', textAlign: 'center' }}
+                  >
+                    Holder: {item.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <b>Contact:</b> {item.contact}<br />
+                    <b>Place:</b> {item.place}<br />
+                    <b>Price:</b> ₹{item.price}<br />
+                    <b>Condition:</b> {item.condition}
+                  </Typography>
 
-                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 1 }}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleLoginToBuy}
-                  >
-                    LOGIN TO BUY
-                  </Button>
-                </Box>
-
-                <Box sx={{ mt: 2 }}>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => handleDelete(item._id)}
-                    style={{ marginRight: 8 }}
-                  >
-                    DELETE
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() => handleEdit(item)}
-                  >
-                    EDIT
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                  <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                    {!isLoggedIn ? (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => navigate('/l')}
+                      >
+                        LOGIN TO BUY
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => navigate(`/buy/${item._id}`)}
+                      >
+                        BUY
+                      </Button>
+                    )}
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 };
 
 export default Viewprod;
+
