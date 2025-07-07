@@ -8,10 +8,10 @@ const Splash = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Wait for 10 seconds and navigate to /home
+    // Wait for 3 seconds and navigate to /home
     const timer = setTimeout(() => {
       navigate("/home");
-    }, 10000); // 10 seconds
+    }, 3000); // 3 seconds
 
     return () => clearTimeout(timer); // Clean up
   }, [navigate]);
