@@ -18,13 +18,11 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Fetch product list
     axios
       .get('http://localhost:5000/api/products')
       .then((res) => setProducts(res.data))
       .catch((err) => console.error('Error fetching products:', err));
 
-    // Check token
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
   }, []);
@@ -34,7 +32,7 @@ const Home = () => {
   };
 
   const handleLoginRedirect = () => {
-    navigate('/l', { state: { from: '/home' } }); // correct route to login
+    navigate('/l', { state: { from: '/home' } });
   };
 
   return (
@@ -44,25 +42,34 @@ const Home = () => {
         paddingX: '30px',
         paddingBottom: '60px',
         minHeight: '100vh',
-        backgroundColor: '#ffffff',
-        color: '#000',
+        backgroundImage: 'url(/assets/bg-farm.jpg)', // ✅ Ensure image exists in public/assets/
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#fff',
         fontFamily: 'Segoe UI, sans-serif',
       }}
     >
       {/* Header */}
       <Box textAlign="center" mb={6}>
-        <Typography variant="h2" fontWeight="bold" gutterBottom>
-          Welcome to Krishimithra
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Empowering agriculture through digital solutions.
-        </Typography>
-      </Box>
+  <Typography variant="h2" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>
+    Welcome to Krishimithra
+  </Typography>
+  <Typography variant="h6" sx={{ color: 'black' }}>
+    Empowering agriculture through digital solutions.
+  </Typography>
+</Box>
+
 
       {/* Product Section */}
-      <Typography variant="h4" mb={4} textAlign="center">
-        Available Products
-      </Typography>
+      <Typography
+  variant="h4"
+  mb={4}
+  textAlign="center"
+  sx={{ color: '#000' }}  // 👈 sets black color
+>
+  Available Products
+</Typography>
 
       <Grid container spacing={4} justifyContent="center">
         {products.length === 0 ? (
@@ -74,15 +81,15 @@ const Home = () => {
             <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
               <Card
                 sx={{
-                  backgroundColor: '#fff',
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
                   color: '#000',
                   borderRadius: 3,
-                  boxShadow: 3,
+                  boxShadow: 5,
                   height: '100%',
                   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                   '&:hover': {
                     transform: 'scale(1.03)',
-                    boxShadow: 6,
+                    boxShadow: 8,
                   },
                   display: 'flex',
                   flexDirection: 'column',

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
+import { UserContext } from '../context/UserContext.jsx'; // ✅ import context
 
 const First = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const First = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // ✅ get setUser from context
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -18,8 +20,8 @@ const First = () => {
     }
 
     try {
-      setError(''); // Clear any previous errors
-      
+      setError('');
+
       // 🔐 Login request
       const res = await axios.post('http://localhost:5000/api/login', {
         username,
@@ -34,10 +36,13 @@ const First = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      localStorage.setItem('user', JSON.stringify(profileRes.data));
+      const userData = profileRes.data;
 
-      alert(`✅ Welcome back, ${profileRes.data.name || username}!`);
-      navigate('/choose'); // Redirect to choose page
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData); // ✅ update context to trigger UI update
+
+      alert(`✅ Welcome back, ${userData.name || username}!`);
+      navigate('/choose');
     } catch (err) {
       setError(err.response?.data?.error || '❌ Invalid credentials');
     }
