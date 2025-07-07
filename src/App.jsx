@@ -17,6 +17,7 @@ import Profile from './component/Profile';
 import Buy from './component/Buy';
 import Choose from './component/Choose';
 import OrderSuccess from './component/Ordersuccess';
+import MyProducts from './component/MyProducts';
 
 import backgroundImage from './assets/agri.png';
 import Field from './assets/Field.png';
@@ -61,6 +62,7 @@ function App() {
           <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/l" />} />
           <Route path="/lo" element={isLoggedIn ? <Logout /> : <Navigate to="/home" />} />
           <Route path="/choose" element={isLoggedIn ? <Choose /> : <Navigate to="/l" />} />
+          <Route path="/myproducts" element={isLoggedIn ? <MyProducts /> : <Navigate to="/l" />} />
 
           {/* 🚫 Catch-all */}
           <Route path="*" element={<Navigate to="/" />} />

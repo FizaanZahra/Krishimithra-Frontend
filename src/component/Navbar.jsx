@@ -129,6 +129,15 @@ const Navbar = () => {
 
                 <Button
                   variant="contained"
+                  sx={{ borderRadius: 20, fontWeight: 'bold', backgroundColor: '#1976d2',
+                        '&:hover': { backgroundColor: '#115293' } }}
+                  onClick={() => navigate('/myproducts')}
+                >
+                  My Products
+                </Button>
+
+                <Button
+                  variant="contained"
                   startIcon={<LogoutIcon />}
                   sx={{ borderRadius: 20, fontWeight: 'bold', backgroundColor: '#424242',
                         '&:hover': { backgroundColor: '#212121' } }}
