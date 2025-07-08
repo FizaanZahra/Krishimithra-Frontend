@@ -60,7 +60,6 @@ const Home = () => {
   </Typography>
 </Box>
 
-
       {/* Product Section */}
       <Typography
   variant="h4"
@@ -72,83 +71,92 @@ const Home = () => {
 </Typography>
 
       <Grid container spacing={4} justifyContent="center">
-        {products.length === 0 ? (
-          <Typography variant="body1" sx={{ p: 4 }}>
-            No products found.
-          </Typography>
-        ) : (
-          products.map((product) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
-              <Card
-                sx={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  color: '#000',
-                  borderRadius: 3,
-                  boxShadow: 5,
-                  height: '100%',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.03)',
-                    boxShadow: 8,
-                  },
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`http://localhost:5000/uploads/${product.image}`}
-                  alt={product.tools || product.name}
-                  sx={{ objectFit: 'contain', backgroundColor: '#f5f5f5', p: 1 }}
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/300x200?text=No+Image';
+        {(() => {
+          // Find the index of the product with tools === 'handfork'
+          const handforkIndex = products.findIndex(
+            (product) => (product.tools || '').toLowerCase() === 'handfork'
+          );
+          // If found, slice up to and including handfork; else, show all
+          const filteredProducts =
+            handforkIndex !== -1 ? products.slice(0, handforkIndex + 1) : products;
+          return filteredProducts.length === 0 ? (
+            <Typography variant="body1" sx={{ p: 4 }}>
+              No products found.
+            </Typography>
+          ) : (
+            filteredProducts.map((product) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
+                <Card
+                  sx={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    color: '#000',
+                    borderRadius: 3,
+                    boxShadow: 5,
+                    height: '100%',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    '&:hover': {
+                      transform: 'scale(1.03)',
+                      boxShadow: 8,
+                    },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
                   }}
-                />
+                >
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={`http://localhost:5000/uploads/${product.image}`}
+                    alt={product.tools || product.name}
+                    sx={{ objectFit: 'contain', backgroundColor: '#f5f5f5', p: 1 }}
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/300x200?text=No+Image';
+                    }}
+                  />
 
-                <CardContent>
-                  <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    {product.tools || 'Agricultural Tool'}
-                  </Typography>
-                  <Typography variant="subtitle1" color="green" fontWeight="bold">
-                    ₹{product.price ? Number(product.price).toLocaleString('en-IN') : 'N/A'}
-                  </Typography>
-                  <Typography variant="body2" mb={1}>
-                    Condition: <strong>{product.condition || 'N/A'}</strong>
-                  </Typography>
-                  <Typography variant="subtitle2" fontWeight="bold">
-                    Holder: {product.name}
-                  </Typography>
-                  <Typography variant="body2">📍 {product.place}</Typography>
-                  <Typography variant="body2">📞 {product.contact}</Typography>
-                </CardContent>
+                  <CardContent>
+                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                      {product.tools || 'Agricultural Tool'}
+                    </Typography>
+                    <Typography variant="subtitle1" color="green" fontWeight="bold">
+                      ₹{product.price ? Number(product.price).toLocaleString('en-IN') : 'N/A'}
+                    </Typography>
+                    <Typography variant="body2" mb={1}>
+                      Condition: <strong>{product.condition || 'N/A'}</strong>
+                    </Typography>
+                    <Typography variant="subtitle2" fontWeight="bold">
+                      Holder: {product.name}
+                    </Typography>
+                    <Typography variant="body2">📍 {product.place}</Typography>
+                    <Typography variant="body2">📞 {product.contact}</Typography>
+                  </CardContent>
 
-                <Box textAlign="center" pb={2}>
-                  {isLoggedIn ? (
-                    <Button
-                      variant="contained"
-                      color="success"
-                      sx={{ borderRadius: '20px', px: 4 }}
-                      onClick={() => handleBuy(product._id)}
-                    >
-                      Buy Now
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      sx={{ borderRadius: '20px', px: 4 }}
-                      onClick={handleLoginRedirect}
-                    >
-                      Login to Buy
-                    </Button>
-                  )}
-                </Box>
-              </Card>
-            </Grid>
-          ))
-        )}
+                  <Box textAlign="center" pb={2}>
+                    {isLoggedIn ? (
+                      <Button
+                        variant="contained"
+                        color="success"
+                        sx={{ borderRadius: '20px', px: 4 }}
+                        onClick={() => handleBuy(product._id)}
+                      >
+                        Buy Now
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        sx={{ borderRadius: '20px', px: 4 }}
+                        onClick={handleLoginRedirect}
+                      >
+                        Login to Buy
+                      </Button>
+                    )}
+                  </Box>
+                </Card>
+              </Grid>
+            ))
+          );
+        })()}
       </Grid>
     </Box>
   );
