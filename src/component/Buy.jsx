@@ -67,13 +67,13 @@ const Buy = () => {
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto', mt: 4, p: 2 }}>
-      <Paper elevation={3} sx={{ p: 3 }}>
+      <Paper elevation={6} sx={{ p: 3, backgroundColor: 'rgba(255,255,255,0.98)', boxShadow: 8 }}>
         <Typography variant="h4" textAlign="center" mb={3}>
           Purchase Summary
         </Typography>
 
         {/* Product Card */}
-        <Card sx={{ display: 'flex', mb: 3 }}>
+        <Card sx={{ display: 'flex', mb: 3, backgroundColor: 'rgba(245,245,245,1)', boxShadow: 6 }}>
           <CardMedia
             component="img"
             sx={{ width: 180, objectFit: 'contain', backgroundColor: '#f4f4f4' }}

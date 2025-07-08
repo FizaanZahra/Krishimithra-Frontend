@@ -78,9 +78,9 @@ const Addprod = () => {
   return (
     <Box
       sx={{
-        background: 'rgba(255,255,255,0.95)',
+        background: 'rgba(255,255,255,0.99)',
         borderRadius: 3,
-        boxShadow: 4,
+        boxShadow: 8,
         maxWidth: 500,
         margin: 'auto',
         mt: 8,
